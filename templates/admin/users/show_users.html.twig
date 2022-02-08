@@ -1,0 +1,94 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin - Gestion des utilisateurs
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+		<div class="row">
+			<h1 class="h2 mb-5">Gestion des utilisateurs</h1>
+			<div class="col-md-3">
+				{% include "/admin/_sidebar-admin.html.twig" %}
+			</div>
+
+			<div class="col-md-9">
+				<table class="table table-striped" id="userTable">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Email</th>
+							<th>Adresse</th>
+							<th>Code postal</th>
+							<th>Ville</th>
+							<th>Rôle</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+
+					{% for user in users %}
+						<tr>
+							<td>{{user.firstname}}</td>
+							<td>{{user.lastname}}</td>
+							<td>{{user.email}}</td>
+							<td>{{user.address}}</td>
+							<td>{{user.zipcode}}</td>
+							<td>{{user.city}}</td>
+							<td>
+								{% for role in user.roles %}
+									{% if (role == "ROLE_USER") %}
+										Utilisateur
+									{% elseif (role == "ROLE_ADMIN") %}
+										Administrateur
+									{% endif %}
+								{% endfor %}
+							</td>
+							<td>
+								<div class="text-nowrap">
+									<a href="{{path('edit_user',{'id':user.id})}}" class="btn btn-sm btn-primary">
+										<i class="fas fa-edit"></i>
+									</a>
+									{% if user.roles == ["ROLE_USER"] %}
+										<button data-bs-link="{{path('delete_user',{'id':user.id})}}" type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_item">
+											<i class="fas fa-trash"></i>
+										</button>
+									{% endif %}
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal delete -->
+	<div class="modal fade" id="delete_item" tabindex="-1" aria-labelledby="delete_itemLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title text-white">Êtes-vous sûr de vouloir supprimer définitivement cet utilisateur?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+					<a href="" class="btn btn-danger btn-delete">Supprimer</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('js/modal.js')}}"></script>
+
+	<script src="{{asset('js/datatables.min.js')}}"></script>
+
+	<script src="{{asset('js/tables.js')}}"></script>
+{% endblock %}

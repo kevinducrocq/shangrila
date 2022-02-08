@@ -1,0 +1,25 @@
+<h2 class="text-center mb-3">{{category.name}}</h2><hr>
+<div class="row">
+	{% for food in foods %}
+		{% if food.hide == false %}
+			<div class="col-lg-3 col-md-4 col-sm-6">
+				<div class="card my-2">
+					<img src="{{ asset(path_image_menu ~ food.img) }}" class="card-img-top img-fluid img-food" alt="{{food.name}}">
+					<div class="card-body">
+						<h5 class="card-title text-nowrap">{{food.name}}</h5>
+						<p class="price card-text">{{food.price|number_format(2)}}
+							&euro;</p>
+						<div class="d-flex justify-content-between">
+							<a href="{{path('see_food_details', {id:food.id})}}" class="btn btn-dark">Voir
+								<i class="fas fa-eye"></i>
+							</a>
+							<a href="{{path('addItemToCart', {id:food.id})}}" class="btn btn-light border border-2">Commander
+								<i class="fas fa-cart-plus"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+</div>

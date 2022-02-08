@@ -1,0 +1,116 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin - Gestion des plats
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+
+		<div class="d-flex justify-content-between align-items-center">
+			<h1 class="h2 mb-5">Gestion des plats</h1>
+			<a href="{{path('add_food')}}" class="btn btn-success btn-lg">Ajouter</a>
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-3">
+				{% include "/admin/_sidebar-admin.html.twig" %}
+			</div>
+
+			<div class="col-md-9">
+				<table class="table table-striped" id="foodTable">
+					<thead>
+						<tr>
+							<th>Catégorie</th>
+							<th>Image</th>
+							<th>Nom</th>
+							<th>Prix</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for food in foods %}
+							<tr>
+								<td>
+									{% if food.category %}
+										{{food.category.name}}
+									{% else %}
+										"pas encore de catégorie attribuée"
+									{% endif %}
+								</td>
+								<td>
+									<a href="{{path('see_food_details',{id:food.id})}}"><img src="{{asset(path_image_menu ~ food.img)}}" alt="" style="width:100px" class="img-fluid admin-image"></a>
+								</td>
+								<td>{{food.name}}</td>
+								<td>{{food.price}}&euro;</td>
+								<td class="text-nowrap">
+									<a href="{{path('edit_food',{'id':food.id})}}" class="btn btn-sm btn-primary">
+										<i class="fas fa-edit"></i>
+									</a>
+									{% if food.hide == 0 %}
+										<button data-bs-link="{{path('hide_food',{'id':food.id})}}" type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#hide_item">
+											<i class="fas fa-eye-slash"></i>
+										</button>
+									{% elseif food.hide == 1 %}
+										<a href="{{path('unhide_food',{'id':food.id})}}" class="btn btn-sm btn-success">
+											<i class="fa fa-eye"></i>
+										</a>
+									{% endif %}
+									<button data-bs-link="{{path('delete_food',{'id':food.id})}}" type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#delete_item">
+										<i class="fas fa-trash"></i>
+									</button>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal hide -->
+	<div class="modal fade" id="hide_item" tabindex="-1" aria-labelledby="hide_itemLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-warning">
+					<h5 class="modal-title">Vous allez retirer le plat de la vente</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+					<a href="" class="btn btn-warning btn-suppr">Confirmer</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal delete -->
+	<div class="modal fade" id="delete_item" tabindex="-1" aria-labelledby="delete_itemLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h5 class="modal-title">Êtes-vous sûr de vouloir supprimer définitivement ce plat?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+					<a href="" class="btn btn-danger btn-delete">Supprimer</a>
+				</div>
+			</div>
+		</div>
+
+	{% endblock %}
+
+
+	{% block javascripts %}
+		<script src="{{asset('js/modal.js')}}"></script>
+
+		<script src="{{asset('js/datatables.min.js')}}"></script>
+
+		<script src="{{asset('js/tables.js')}}"></script>
+	{% endblock %}

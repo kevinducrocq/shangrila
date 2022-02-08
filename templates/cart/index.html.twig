@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Panier
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+		<h1 class="text-center mb-5">Commande et Paiement</h1>
+		<div class="row">
+
+			<div class="col-md-4">
+				<div class="card bg-light text-center shadow p-5">
+					<div class="card-title">
+						<h6>Commande pour
+							{{app.user.lastname}}
+							{{app.user.firstname}}</h6>
+					</div>
+					<div class="card-body bg-secondary shadow text-white rounded-3">
+						{% if app.user.address %}
+							{{order.address}}
+							<br>
+							{{order.zipcode}}
+							<br>
+							{{order.city}}
+							<br>
+							<a href="{{path('change_address')}}" class="btn btn-sm btn-dark mt-2">Changer l'adresse de livraison</a>
+						{% else %}
+							<a href="{{path('profile_edit')}}" class="btn btn-sm btn-dark mt-2">Ajouter une adresse de livraison</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+						<div class="col-md-8">
+				{% if items | length > 0 %}
+					<table class="table table-striped mt-5">
+						<thead>
+							<tr>
+								<th>Produit</th>
+								<th>Prix</th>
+								<th>Quantité</th>
+								<th>Total</th>
+								<th></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% for item in items %}
+								<tr>
+									<td>{{item.food.name}}</td>
+									<td>{{item.food.price}}
+										&euro;</td>
+									<td>
+										<a href="{{path('removeItemFromCart',{id:item.food.id})}}" class="mb-1 btn btn-sm btn-dark">
+											<i class="fas fa-minus"></i>
+										</a>
+										<span class="bg-light p-2">{{item.quantity}}</span>
+										<a href="{{path('addItemToCart',{id:item.food.id})}}" class="mb-1 btn btn-sm btn-dark">
+											<i class="fas fa-plus"></i>
+										</a>
+									</td>
+									<td>{{item.quantity * item.food.price}}
+										&euro;</td>
+									<td>
+										<a href="{{path('deleteFromCart',{id:item.food.id})}}" class="mb-1 btn btn-sm btn-danger">
+											<i class="fas fa-trash"></i>
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						<tfoot class="mt-5">
+							<tr class="bg-secondary text-white">
+								<td class="fw-bold" colspan="3">Total du panier</td>
+								<td>
+									<strong class="p-2 text-nowrap">{{total}}
+										&euro;</strong>
+								</td>
+
+								<td></td>
+							</tr>
+						</tfoot>
+					</table>
+				{% else %}
+					<p class="alert alert-warning mt-4">Votre panier est vide !</p>
+				{% endif %}
+
+				{% if items is empty %}
+					<a href="{{path('order')}}" class="mb-2 btn btn-primary">
+						Commencer votre commande</a>
+				{% else %}
+
+					<div class="d-flex flex-column float-end w-50 mb-5">
+						{% if app.user.address %}
+							<form action="/checkout" method="POST">
+								<button type="submit" class="form-control mb-2 btn btn-lg btn-primary">Payer</button>
+							</form>
+						{% endif %}
+
+						<a href="{{path('order')}}" class="mb-2 btn-sm btn btn-light border border-2">
+							Continuer votre commande</a>
+
+						<a href="{{path('emptyCart')}}" class="btn btn-sm btn-warning">
+							Vider le panier</a>
+					{% endif %}
+				</div>
+			</div>
+
+
+		</div>
+
+
+	</div>
+</div></div>{% endblock %}{% block javascripts %}{{parent()}}<script src="https://js.stripe.com/v2/"></script>{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin - Gestion des utilisateurs
+{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+		<div class="row">
+			<h1 class="h2 mb-5">Gestion des commandes</h1>
+			<div class="col-md-3">
+				{% include "/admin/_sidebar-admin.html.twig" %}
+			</div>
+
+			<div class="col-md-9">
+				<table class="table table-striped" id="orderTable">
+					<thead>
+						<tr>
+							<th>N°</th>
+							<th>Le</th>
+							<th>Client</th>
+							<th>Montant</th>
+							<th>Statut</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+
+					{% for order in orders %}
+						<tr>
+							<td>{{order.id}}</td>
+							<td>{{order.createdAt|date('d-m-y')}}
+								<br>
+								<span class="text-muted">{{order.createdAt|date('H:i:s')}}</span>
+							</td>
+							<td>{{order.user.firstname}}
+								|
+								{{order.address}},
+								{{order.zipcode}}
+								{{order.city}}</td>
+							<td>{{(order.totalAccount)/100}}
+								&euro;</td>
+							{% if order.status == 1 %}
+								<td>
+									<spanc class="badge bg-success">Payé</spanc>
+								</td>
+							{% else %}
+								<td>
+									<span class="badge bg-danger">Non payé</span>
+								</td>
+							{% endif %}
+
+							<td>
+								<div class="text-center">
+									<a href="{{path('see_order',{'id':order.id})}}" class="btn btn-sm btn-dark">
+										<i class="fas fa-eye"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('js/modal.js')}}"></script>
+
+	<script src="{{asset('js/datatables.min.js')}}"></script>
+
+	<script src="{{asset('js/tables.js')}}"></script>
+{% endblock %}

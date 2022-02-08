@@ -1,0 +1,36 @@
+<div id="navi" class="list-group shadow">
+	<a href="{{path('admin')}}" class="list-group-item list-group-item-action" aria-current="true">
+		<i class="fas fa-tachometer-alt mx-2"></i>
+		Chiffres
+	</a>
+	<a href="{{path('show_orders')}}" class="list-group-item list-group-item-action" aria-current="true">
+		<i class="fas fa-hamburger mx-2"></i>
+		Commandes
+	</a>
+	<a href="{{path('show_food')}}" class="list-group-item list-group-item-action">
+		<i class="fas fa-book-open mx-2"></i>
+		Menu</a>
+	<a href="{{path('show_category')}}" class="list-group-item list-group-item-action">
+		<i class="fas fa-table mx-2"></i>
+		Catégories</a>
+	<a href="{{path('show_users')}}" class="list-group-item list-group-item-action">
+		<i class="fas fa-users mx-2"></i>
+		Utilisateurs</a>
+	<a href="{{path('show_comments')}}" class="list-group-item list-group-item-action">
+		<i class="fas fa-comments mx-2"></i>
+		Commentaires
+		{% if commentNotif() %}
+			<span class="badge bg-danger"><i class="fas fa-exclamation"></i></span>
+		{% endif %}
+	</a>
+
+	<a href="{{path('show_messages')}}" class="list-group-item list-group-item-action">
+		<i class="far fa-envelope mx-2"></i>
+		Messages
+		{% if messageNotif() %}
+			<span class="badge bg-danger"><i class="fas fa-exclamation"></i></span>
+		{% endif %}
+	</a>
+
+
+</div>

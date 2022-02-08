@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commander
+{% endblock %}
+
+{% block body %}
+
+	<section id="bloc-titre-menu" class="d-flex justify-content-center">
+		<h1 class="text-white align-self-center">Menu</h1>
+	</section>
+
+	<div class="container mt-5 mb-5">
+
+		<div class="row">
+			<div class="col-md-4">
+				<a href="{{path('cart')}}" class="mt-4 btn-lg btn btn-primary form-control">Voir votre panier</a>
+			</div>
+			<div class="col-md-8">
+				<label for="selectOrder" class="form-label fw-bold">Que souhaitez vous manger ?</label>
+				<select class="form-select" name="selectOrder" id="choose_category">
+					<option value="0">Choisissez</option>
+					{% for categorie in categories %}
+						{% if categorie.hide == false %}
+							<option value="{{categorie.id}}">{{categorie.name}}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+			</div>
+
+
+			<div class="mt-5" id="results-food"></div>
+		</div>
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	<script src="{{asset('/bundles/fosjsrouting/js/router.min.js')}}"></script>
+	<script src="{{path("fos_js_routing_js",{callback:'fos.Router.setData'})}}"></script>
+{% endblock %}

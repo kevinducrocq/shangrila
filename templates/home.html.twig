@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{asset('/css/owl.carousel.min.css')}}">
+{% endblock %}
+
+{% block body %}
+
+	{# Bloc titre #}
+	<section>
+		<div id="cover" class="d-flex flex-column justify-content-center align-items-center">
+			<img src="{{asset('./uploads/site/separater.png')}}" alt="">
+			<h1 class="h1-cover">Restaurant Shangrila</h1>
+			<h2 class="h2-cover">Spécialités culinaires hors du commun</h2>
+			<img src="{{asset('./uploads/site/separater.png')}}" alt="">
+		</div>
+	</section>
+
+	{# Bloc derniers plats #}
+	<section class="bg-light py-5">
+		<div class="container">
+			<div class="titles mb-5">
+				<h2 class="h3 h1-cover">Nos derniers plats à la carte</h2>
+				<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+				{% if app.user == false %}
+					<span class="mt-2 text-muted">
+						<a href="{{path('app_login')}}">Connectez-vous</a>
+						ou
+						<a href="{{path('app_register')}}">Inscrivez-vous</a>
+						pour pouvoir commander</a>
+				</span>
+			{% endif %}
+
+		</div>
+		<div class="row">
+			{% for foods in food|slice(0, 8) %}
+				{% if foods.hide == false and foods.category.hide == false %}
+					<div class="col-lg-3 col-md-4 col-sm-6">
+						<div class="mb-2 card shadow">
+							<img src="{{asset(path_image_menu ~ foods.img)}}" class="img-fluid card-img-top" alt="{{foods.name}}">
+							<div class="card-body">
+								<span class="text-muted">{{foods.category.name}}</span>
+								<h5 class="card-title">{{foods.name}}</h5>
+								<p class="card-text">{{foods.price}}
+									&euro;</p>
+								<div class="d-flex justify-content-between">
+									<a href="{{path('see_food_details',{'id':foods.id})}}" class="btn btn-dark">
+										<i class="far fa-eye"></i>
+										Voir</a>
+									{% if app.user %}
+										<a href="{{path('addItemToCart',{id:foods.id})}}" class="btn btn-light border border-2">
+											<i class="fas fa-cart-plus"></i>
+											Commander</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+
+<section id="overlay" class="d-flex overlay">
+	<div class="content-overlay text-center">
+		<h3 class="h2">Vous souhaitez nous rendre visite ?</h3>
+		<a class="btn btn-light btn-lg" href="{{path('contact')}}">Contactez-nous</a>
+	</div>
+</section>
+
+
+{# Bloc Commentaires #}
+<section class="bg-light py-5">
+	<div class="container">
+		<div class="titles mb-5 d-flex justify-content-between align-items-center">
+			<div>
+				<h2 class="h3 h1-cover">Ce qu'ils disent de nous</h2>
+				<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+			</div>
+			<a href="{{path('add_comment')}}" class="btn btn-lg btn-primary">Laisser un commentaire</a>
+		</div>
+		<div class="owl-carousel">
+			{% for comment in comments %}
+				{% if comment.status == 1 %}
+					<div class="item">
+						<div class="card shadow">
+							<div class="card-header text-center">
+								<span class="rating">
+									{% for i in 1..5 %}
+										{% if i <= comment.rating %}
+											<i class="fas fa-star"></i>
+										{% else %}
+											<i class="far fa-star"></i>
+										{% endif %}
+									{% endfor %}
+
+								</div>
+								<div class="card-body p-3 d-flex flex-column justify-content-center text-center" style="min-height:250px;">
+									<p>
+										<i class="fas fa-quote-left"></i>
+										{{comment.content}}
+										<i class="fas fa-quote-right"></i>
+									</p>
+								</div>
+								<div class="card-footer">
+									<small class="text-muted">
+										Le
+										{{comment.createdAt | date('d-m-Y')}}
+										<br>
+										par
+										{{comment.user.lastname}}
+										{{comment.user.firstname}}
+									</small>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{asset('/js/owl.carousel.min.js')}}"></script>
+{% endblock %}

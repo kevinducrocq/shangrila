@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin - Edition d'une commentaire
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+
+		<div class="d-flex justify-content-between align-items-center">
+			<h1 class="h2 mb-5">Edition d'un commentaire</h1>
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-3">
+				{% include "/admin/_sidebar-admin.html.twig" %}
+			</div>
+
+			<div class="col-md-9 p-5 bg-light shadow">
+				{{form_start(commentEditForm)}}
+				{{form_widget(commentEditForm)}}
+				<button type="submit" class="btn btn-primary">Modifier</button>
+				<a href="{{path('show_comments')}}" class="btn btn-dark"><i class="fas fa-backward"></i> Retour</a>
+				{{form_end(commentEditForm)}}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

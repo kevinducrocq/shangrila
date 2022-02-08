@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Paiement accepté !
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-5 mb-5">
+		<div class="row">
+			<div class="col-md-6 offset-md-3">
+				<div class="card shadow">
+					<div class="card-title">
+						<h1 class="bg-danger p-5 text-center">Une erreur est survenue lors du paiement
+						</h1>
+					</div>
+					<div class="card-body text-muted text-center">
+						<span>Veuillez s'il vous plaît réessayer.</span>
+					</div>
+
+					<div class="card-footer d-flex justify-content-between">
+						<a href="{{path('home')}}" class="btn btn-dark">Accueil</a>
+						<a href="{{path('user_profile')}}" class="btn btn-primary">Historique de commandes</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

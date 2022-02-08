@@ -1,0 +1,62 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+	<div class="container mt-5 mb-5">
+
+		{% if is_granted('ROLE_ADMIN') %}
+			<h1>Détail de la commande N°
+				{{order.id}}</h1><br>
+		{% else %}
+			<h1>Détail de votre commande N°
+				{{order.id}}</h1><br>
+		{% endif %}
+
+		<p>Livrée à :
+			{{order.user.lastname}}
+			{{order.user.firstname}},
+			{{order.address}},
+			{{order.zipcode}},
+			{{order.city}}</p>
+
+		<table class="table table-striped">
+			<thead>
+				<th>Produit</th>
+				<th>Prix</th>
+				<th>Quantité</th>
+				<th>Total</th>
+			</thead>
+			<tbody>
+				{% for item in order.items %}
+					<tr>
+						<td>{{item.food.name}}</td>
+						<td>{{item.food.price}}
+							&euro;</td>
+						<td>{{item.quantity}}</td>
+						<td>{{item.quantity * item.food.price }}
+							&euro;</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+
+			<tfoot>
+				<tr class="bg-secondary text-white fw-bold">
+					<td colspan="3">Total de la commande</td>
+					<td>{{order.totalAccount / 100}}
+						&euro;</td>
+				</tr>
+			</tfoot>
+		</table>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a class="btn btn-dark" href="{{path('show_orders')}}">
+				<i class="fas fa-backward"></i>
+				Retour</a>
+		{% else %}
+			<a class="btn btn-dark" href="{{path('user_profile')}}">
+				<i class="fas fa-backward"></i>
+				Retour</a>
+		{% endif %}
+	</div>
+
+{% endblock %}

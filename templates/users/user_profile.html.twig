@@ -1,0 +1,113 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+{% endblock %}
+
+{% block body %}
+
+	<section id="bloc-titre-user" class="d-flex justify-content-center">
+		<h1 class="text-white align-self-center">Votre profil</h1>
+	</section>
+
+	<div class="container mt-5 mb-5">
+
+		<div class="row">
+
+			<div class="col-md-4 mb-5">
+				<div class="rounded shadow p-4">
+					<h3 class="text-center">Vos informations</h3><hr>
+					<dl class="row">
+						<dt class="col-md-4">Nom:</dt>
+						<dd class="col-md-8">{{app.user.firstname}}</dd>
+						<dt class="col-md-4">Prénom:</dt>
+						<dd class="col-md-8">{{app.user.lastname}}</dd>
+						<dt class="col-md-4">Email:</dt>
+						<dd class="col-md-8">{{app.user.email}}</dd>
+						<dt class="col-md-4">Adresse:</dt>
+						<dd class="col-md-8">
+							{% if app.user.address %}
+								{{app.user.address}},
+								{{app.user.zipcode}},
+								{{app.user.city}}
+							{% else %}
+								<a href="{{path('profile_edit')}}">Ajouter votre adresse</a>
+							{% endif %}
+						</dd>
+					</dl>
+					<a href="{{path('profile_edit')}}" class="mt-3 btn btn-primary form-control">Modifier vos informations</a>
+				</div>
+			</div>
+
+			<div class="col-md-8 p-4">
+				<h3 class="text-center">Vos commandes</h3><hr>
+				{% if app.user.orders %}
+					<table class="table table-striped" id="myTable">
+						<thead>
+							<th>Commande n°</th>
+							<th>Le</th>
+							<th>Total</th>
+							<th>Détails</th>
+						</thead>
+
+						{% for order in user.orders %}
+							<tr>
+								<td>{{order.id}}</td>
+								<td>{{order.createdAt|date('d-m-y')}}
+									à
+									{{order.createdAt|date('H:i')}}</td>
+								<td>{{(order.totalAccount)/100}}
+									&euro;</td>
+								<td>
+									<a href="{{path('see_order',{'id':order.id})}}" class="btn btn-sm btn-dark">
+										<i class="fas fa-eye"></i>
+									</a>
+								</td>
+							</tr>
+						{% endfor %}
+					</table>
+
+
+				{% else %}
+					<div class="alert alert-info">Vous n'avez pas encore de commandes</div>
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="/js/datatables.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+$('#myTable').DataTable({
+"pageLength": 5,
+"lengthMenu": [
+[
+5, 10, 15, -1
+],
+[
+5, 10, 15, "All"
+]
+],
+"language": {
+"lengthMenu": "Montrer _MENU_",
+"zeroRecords": "Aucun résultat - désolé",
+"info": "Page _PAGE_ sur _PAGES_",
+"infoEmpty": "Aucun résultat",
+"infoFiltered": "(filtered from _MAX_ total records)",
+"paginate": {
+"first": "Premier",
+"last": "Dernier",
+"next": "&raquo;",
+"previous": "&laquo;"
+},
+"search": "Rechercher:"
+}
+
+})
+})
+	</script>
+{% endblock %}

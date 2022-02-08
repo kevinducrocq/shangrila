@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sahngrila - Contactez-nous
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5 mb-5">
+		<div class="row">
+			<div class="mt-5 col-md-6 offset-md-3 bg-light shadow px-5 pb-3">
+				<div class="mb-5 mt-5">
+					<h1 class="h2 text-center">Contactez-nous</h1>
+				</div>
+				{{form_start(contactForm)}}
+				{{form_widget(contactForm)}}
+				<button type="submit" class="btn btn-primary">Envoyer</button>
+				<a href="{{path('home')}}" class="btn btn-dark"><i class="fas fa-backward"></i> Retour</a>
+				{{form_end(contactForm)}}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
