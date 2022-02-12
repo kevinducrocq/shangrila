@@ -7,12 +7,12 @@
 		<i class="fas fa-hamburger mx-2"></i>
 		Commandes
 	</a>
-	<a href="{{path('show_food')}}" class="list-group-item list-group-item-action">
-		<i class="fas fa-book-open mx-2"></i>
-		Menu</a>
 	<a href="{{path('show_category')}}" class="list-group-item list-group-item-action">
 		<i class="fas fa-table mx-2"></i>
 		Catégories</a>
+	<a href="{{path('show_food')}}" class="list-group-item list-group-item-action">
+		<i class="fas fa-book-open mx-2"></i>
+		Menu</a>
 	<a href="{{path('show_users')}}" class="list-group-item list-group-item-action">
 		<i class="fas fa-users mx-2"></i>
 		Utilisateurs</a>
@@ -20,7 +20,9 @@
 		<i class="fas fa-comments mx-2"></i>
 		Commentaires
 		{% if commentNotif() %}
-			<span class="badge bg-danger"><i class="fas fa-exclamation"></i></span>
+			<span class="badge bg-danger">
+				<i class="fas fa-exclamation"></i>
+			</span>
 		{% endif %}
 	</a>
 
@@ -28,9 +30,12 @@
 		<i class="far fa-envelope mx-2"></i>
 		Messages
 		{% if messageNotif() %}
-			<span class="badge bg-danger"><i class="fas fa-exclamation"></i></span>
+			<span class="badge bg-danger">
+				<i class="fa-solid fa-bars"></i>
+			</span>
 		{% endif %}
 	</a>
 
 
 </div>
+

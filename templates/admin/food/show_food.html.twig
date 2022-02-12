@@ -10,6 +10,7 @@
 {% block body %}
 
 	<div class="container mt-5 mb-5">
+		{% include "/admin/_sidebar_admin_mobile.html.twig" %}
 
 		<div class="d-flex justify-content-between align-items-center">
 			<h1 class="h2 mb-5">Gestion des plats</h1>
@@ -103,14 +104,15 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-	{% endblock %}
+{% endblock %}
 
 
-	{% block javascripts %}
-		<script src="{{asset('js/modal.js')}}"></script>
+{% block javascripts %}
+	<script src="{{asset('js/modal.js')}}"></script>
 
-		<script src="{{asset('js/datatables.min.js')}}"></script>
+	<script src="{{asset('js/datatables.min.js')}}"></script>
 
-		<script src="{{asset('js/tables.js')}}"></script>
-	{% endblock %}
+	<script src="{{asset('js/tables.js')}}"></script>
+{% endblock %}

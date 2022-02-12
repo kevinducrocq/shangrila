@@ -10,6 +10,8 @@
 {% block body %}
 
 	<div class="container mt-5 mb-5">
+		{% include "/admin/_sidebar_admin_mobile.html.twig" %}
+
 		<div class="row">
 			<h1 class="h2 mb-5">Gestion des commentaires</h1>
 			<div class="col-md-3">
@@ -68,7 +70,7 @@
 							<td>
 								<div class="text-nowrap">
 									{% if comment.status == 0 %}
-										<a href="{{path('validate_comment',{'id':comment.id})}}" class="btn btn-sm btn-success">
+										<a href="{{path('validate_comment',{'id':comment.id})}}" class="js-validate btn btn-sm btn-success">
 											<i class="fas fa-check"></i>
 										</a>
 									{% else %}
@@ -121,14 +123,15 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
 
-	{% endblock %}
+{% endblock %}
 
-	{% block javascripts %}
-		<script src="{{asset('js/modal.js')}}"></script>
+{% block javascripts %}
+	<script src="{{asset('js/modal.js')}}"></script>
 
-		<script src="{{asset('js/datatables.min.js')}}"></script>
+	<script src="{{asset('js/datatables.min.js')}}"></script>
 
-		<script src="{{asset('js/tables.js')}}"></script>
-	{% endblock %}
+	<script src="{{asset('js/tables.js')}}"></script>
+{% endblock %}

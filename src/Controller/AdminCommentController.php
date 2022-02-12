@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCommentController extends AbstractController
 {
+
     #[Route('/admin/comment', name: 'show_comments')]
     /**
      * @IsGranted("ROLE_ADMIN")

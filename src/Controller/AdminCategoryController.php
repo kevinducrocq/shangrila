@@ -15,7 +15,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminCategoryController extends AbstractController
+
 {
+    private $manager;
+    private $alert;
+    public function __construct(EntityManagerInterface $manager, AlertServiceInterface $alert)
+    {
+        $this->alert = $alert;
+        $this->manager = $manager;
+    }
+
     #[Route('/admin/category/show_category', name: 'show_category')]
     /**
      * @IsGranted("ROLE_ADMIN")
@@ -32,7 +41,7 @@ class AdminCategoryController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function addCategory(EntityManagerInterface $manager, Request $request, AlertServiceInterface $alert): Response
+    public function addCategory(Request $request): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryFormType::class, $category);
@@ -40,9 +49,9 @@ class AdminCategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $category->setHide(0);
-            $manager->persist($category);
-            $manager->flush();
-            $alert->success('Catégorie ajoutée');
+            $this->manager->persist($category);
+            $this->manager->flush();
+            $this->alert->success('Catégorie ajoutée');
             return $this->redirectToRoute('show_category');
         }
         return $this->render('admin/category/add_category.html.twig', [
@@ -54,16 +63,16 @@ class AdminCategoryController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function editCategory(Category $category, Request $request, EntityManagerInterface $manager, AlertServiceInterface $alert): Response
+    public function editCategory(Category $category, Request $request): Response
     {
         $form = $this->createForm(CategoryFormType::class, $category);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($category);
-            $manager->flush();
-            $alert->success("La catégorie a bien été mise à jour");
+            $this->manager->persist($category);
+            $this->manager > flush();
+            $this->alert->success("La catégorie a bien été mise à jour");
             return $this->redirectToRoute('show_category');
         }
         return $this->render('admin/category/edit_category.html.twig', [
@@ -75,12 +84,12 @@ class AdminCategoryController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function hideCategory(Category $category, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function hideCategory(Category $category)
     {
         $category->setHide(1);
-        $manager->persist($category);
-        $manager->flush();
-        $alert->success('Votre catégorie a été retirée de la vente');
+        $this->manager->persist($category);
+        $this->manager->flush();
+        $this->alert->success('Votre catégorie a été retirée de la vente');
         return $this->redirectToRoute('show_category');
     }
 
@@ -88,12 +97,12 @@ class AdminCategoryController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function unhideCategory(Category $category, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function unhideCategory(Category $category)
     {
         $category->setHide(0);
-        $manager->persist($category);
-        $manager->flush();
-        $alert->success('Votre catégorie a été remise en vente');
+        $this->manager->persist($category);
+        $this->manager->flush();
+        $this->alert->success('Votre catégorie a été remise en vente');
         return $this->redirectToRoute('show_category');
     }
 
@@ -102,11 +111,11 @@ class AdminCategoryController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function deleteCategory(Category $category, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function deleteCategory(Category $category)
     {
-        $manager->remove($category);
-        $manager->flush();
-        $alert->success("La catégorie a été supprimée avec succès");
+        $this->manager->remove($category);
+        $this->manager->flush();
+        $this->alert->success("La catégorie a été supprimée avec succès");
         return $this->redirectToRoute('show_category');
     }
 }

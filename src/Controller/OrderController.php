@@ -37,5 +37,4 @@ class OrderController extends AbstractController
         ]);
     }
 
-
 }

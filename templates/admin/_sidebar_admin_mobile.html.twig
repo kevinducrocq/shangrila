@@ -1,0 +1,51 @@
+<div class="menu-mobile bg-3 py-3">
+	<a class="menu-mobile-font" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+		<div class="d-flex align-items-center">
+			<i class="fas fa-solid fa-bars fa-2x mx-2"></i>
+			<span>Menu admin</span>
+		</div>
+	</a>
+</div>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+
+	<div class="offcanvas-body mt-5">
+		<a href="{{path('admin')}}" class="my-3 nav-link text-dark" aria-current="true">
+			<i class="fas fa-tachometer-alt mx-2"></i>
+			Chiffres
+		</a>
+		<a href="{{path('show_orders')}}" class="my-3 nav-link text-dark" aria-current="true">
+			<i class="fas fa-hamburger mx-2"></i>
+			Commandes
+		</a>
+		<a href="{{path('show_category')}}" class="my-3 nav-link text-dark">
+			<i class="fas fa-table mx-2"></i>
+			Catégories</a>
+		<a href="{{path('show_food')}}" class="my-3 nav-link text-dark">
+			<i class="fas fa-book-open mx-2"></i>
+			Menu</a>
+		<a href="{{path('show_users')}}" class="my-3 nav-link text-dark">
+			<i class="fas fa-users mx-2"></i>
+			Utilisateurs</a>
+		<a href="{{path('show_comments')}}" class="my-3 nav-link text-dark">
+			<i class="fas fa-comments mx-2"></i>
+			Commentaires
+			{% if commentNotif() %}
+				<span class="badge bg-danger">
+					<i class="fas fa-exclamation"></i>
+				</span>
+			{% endif %}
+		</a>
+
+		<a href="{{path('show_messages')}}" class="my-3 nav-link text-dark">
+			<i class="far fa-envelope mx-2"></i>
+			Messages
+			{% if messageNotif() %}
+				<span class="badge bg-danger">
+					<i class="fas fa-exclamation"></i>
+				</span>
+			{% endif %}
+		</a>
+
+	</div>
+</div>

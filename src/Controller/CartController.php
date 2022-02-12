@@ -23,6 +23,7 @@ class CartController extends AbstractController
 
     #[Route('/cart', name: 'cart')]
     /**
+     *  Page panier de l'utilisateur
      *  @IsGranted("ROLE_USER")
      */
     public function index(): Response
@@ -52,6 +53,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'addItemToCart')]
+    /**
+     * Ajout d'un produit au panier
+     */
     public function addItemToCart($id, AlertServiceInterface $alert)
     {
         $this->cartService->addItemToCart($id);
@@ -60,6 +64,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/remove/{id}', name: 'removeItemFromCart')]
+    /**
+     * Retrait d'un produit au panier
+     */
     public function removeItemFromCart($id, AlertServiceInterface $alert)
     {
         $this->cartService->removeItemFromCart($id);
@@ -68,6 +75,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'deleteFromCart')]
+    /**
+     * Suppression d'une ligne du panier
+     */
     public function deleteLineFromCart($id, AlertServiceInterface $alert)
     {
         $this->cartService->deleteLineFromCart($id);
@@ -76,6 +86,9 @@ class CartController extends AbstractController
     }
 
     #[Route('/delete', name: 'emptyCart')]
+    /**
+     * Vider le panier
+     */
     public function emptyCart()
     {
         $this->cartService->emptyCart();
@@ -83,9 +96,12 @@ class CartController extends AbstractController
     }
 
     #[Route('/change-address', name: 'change_address')]
+    /**
+     * Change l'adresse de livraison si l'utilisateur n'est pas chez lui. 
+     */
     public function changeAddress(Request $request, AlertServiceInterface $alert)
     {
-        //   
+    
         $form = $this->createForm(ChangeAddressType::class);
         $form->handleRequest($request);
 

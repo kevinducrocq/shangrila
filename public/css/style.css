@@ -68,6 +68,8 @@ body {
   color: goldenrod;
 }
 
+/*Carousel*/
+
 .owl-prev,
 .owl-next {
   width: 15px;
@@ -120,4 +122,34 @@ body {
   width: 100%;
   height: 5vh;
   object-fit: cover;
+}
+
+.menu-mobile-font {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #000;
+}
+.menu-mobile-font:hover {
+  color: #5584ac;
+}
+
+.menu-mobile {
+  display: none;
+}
+
+
+@media all and (max-width: 990px) {
+  .menu-mobile {
+    display: block;
+  }
+  #navi {
+    display: none;
+  }
+  td {
+    font-size: 10px;
+  }
+  .mobile-hide {
+    display: none;
+  }
 }

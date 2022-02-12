@@ -42,7 +42,7 @@
 			<div class="col-md-8 p-4">
 				<h3 class="text-center">Vos commandes</h3><hr>
 				{% if app.user.orders %}
-					<table class="table table-striped" id="myTable">
+					<table class="table table-striped" id="userOrderTable">
 						<thead>
 							<th>Commande n°</th>
 							<th>Le</th>
@@ -79,35 +79,5 @@
 
 {% block javascripts %}
 	<script src="/js/datatables.min.js"></script>
-
-	<script>
-		$(document).ready(function () {
-$('#myTable').DataTable({
-"pageLength": 5,
-"lengthMenu": [
-[
-5, 10, 15, -1
-],
-[
-5, 10, 15, "All"
-]
-],
-"language": {
-"lengthMenu": "Montrer _MENU_",
-"zeroRecords": "Aucun résultat - désolé",
-"info": "Page _PAGE_ sur _PAGES_",
-"infoEmpty": "Aucun résultat",
-"infoFiltered": "(filtered from _MAX_ total records)",
-"paginate": {
-"first": "Premier",
-"last": "Dernier",
-"next": "&raquo;",
-"previous": "&laquo;"
-},
-"search": "Rechercher:"
-}
-
-})
-})
-	</script>
+	<script src="/js/tables.js"></script>
 {% endblock %}

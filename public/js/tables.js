@@ -1,3 +1,30 @@
+// Profil utilisateur : historique de commandes
+
+$(document).ready(function () {
+  $("#userOrderTable").DataTable({
+    order: [[1, "DESC"]],
+    pageLength: 5,
+    lengthMenu: [
+      [5, 10, 15, -1],
+      [5, 10, 15, "All"],
+    ],
+    language: {
+      lengthMenu: "Montrer _MENU_",
+      zeroRecords: "Aucun résultat - désolé",
+      info: "Page _PAGE_ sur _PAGES_",
+      infoEmpty: "Aucun résultat",
+      infoFiltered: "(filtered from _MAX_ total records)",
+      paginate: {
+        first: "Premier",
+        last: "Dernier",
+        next: "&raquo;",
+        previous: "&laquo;",
+      },
+      search: "Rechercher:",
+    },
+  });
+});
+
 // Food
 
 $(document).ready(function () {
@@ -133,7 +160,10 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#contactTable").DataTable({
-    order: [[3, "desc"]],
+    order: [
+      [3, "desc"],
+      [1, "asc"],
+    ],
     pageLength: 5,
     lengthMenu: [
       [5, 10, 15, -1],
