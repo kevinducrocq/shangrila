@@ -17,6 +17,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminCommentController extends AbstractController
 {
 
+    private $manager;
+    private $alert;
+    public function __construct(EntityManagerInterface $manager, AlertServiceInterface $alert)
+    {
+        $this->alert = $alert;
+        $this->manager = $manager;
+    }
+
     #[Route('/admin/comment', name: 'show_comments')]
     /**
      * @IsGranted("ROLE_ADMIN")
@@ -34,12 +42,12 @@ class AdminCommentController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function validateComment(Comment $comment, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function validateComment(Comment $comment)
     {
         $comment->setStatus(1);
-        $manager->persist($comment);
-        $manager->flush();
-        $alert->success("Le commentaire a été publié sur la page d'accueil");
+        $this->manager->persist($comment);
+        $this->manager->flush();
+        $this->alert->success("Le commentaire a été publié sur la page d'accueil");
         return $this->redirectToRoute('show_comments');
     }
 
@@ -47,12 +55,12 @@ class AdminCommentController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function hideComment(Comment $comment, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function hideComment(Comment $comment)
     {
         $comment->setStatus(0);
-        $manager->persist($comment);
-        $manager->flush();
-        $alert->warning('Le commentaire a été retiré de la page d\'accueil');
+        $this->manager->persist($comment);
+        $this->manager->flush();
+        $this->alert->warning('Le commentaire a été retiré de la page d\'accueil');
         return $this->redirectToRoute('show_comments');
     }
 
@@ -60,16 +68,16 @@ class AdminCommentController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function editComment(Comment $comment, Request $request, EntityManagerInterface $manager, AlertServiceInterface $alert): Response
+    public function editComment(Comment $comment, Request $request): Response
     {
 
         $form = $this->createForm(CommentFormType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($comment);
-            $manager->flush();
-            $alert->success("Le Commentaire a bien été mis à jour");
+            $this->manager->persist($comment);
+            $this->manager->flush();
+            $this->alert->success("Le Commentaire a bien été mis à jour");
 
             return $this->redirectToRoute('show_comments');
         }
@@ -83,11 +91,11 @@ class AdminCommentController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function deleteComment(Comment $comment, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function deleteComment(Comment $comment)
     {
-        $manager->remove($comment);
-        $manager->flush();
-        $alert->success("Le Commentaire a été supprimé");
+        $this->manager->remove($comment);
+        $this->manager->flush();
+        $this->alert->success("Le Commentaire a été supprimé");
         return $this->redirectToRoute('show_comments');
     }
 }

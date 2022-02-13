@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,9 +17,9 @@ class OrderController extends AbstractController
     /**
      *@IsGranted("ROLE_USER")
      */
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
-        $categories = $doctrine->getRepository(Category::class)->findAll();
+        $categories = $categoryRepository->findAll();
 
         return $this->render('order/index.html.twig', [
             'categories' => $categories,
@@ -36,5 +37,4 @@ class OrderController extends AbstractController
             ])->getContent()
         ]);
     }
-
 }

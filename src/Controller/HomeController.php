@@ -7,6 +7,8 @@ use App\Entity\Comment;
 use App\Entity\Contact;
 use App\Form\CommentFormType;
 use App\Form\ContactFormType;
+use App\Repository\CommentRepository;
+use App\Repository\FoodRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\Alert\AlertServiceInterface;
@@ -18,11 +20,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
-    public function index(ManagerRegistry $doctrine, Request $request): Response
+
+    private AlertServiceInterface $alert;
+    private EntityManagerInterface $manager;
+    public function __construct(AlertServiceInterface $alert, EntityManagerInterface $manager)
     {
-        $food = $doctrine->getRepository(Food::class)->findAll();
-        $comments = $doctrine->getRepository(Comment::class)->findAll();
+        $this->alert = $alert;
+        $this->manager = $manager;
+    }
+
+    #[Route('/', name: 'home')]
+    public function index(FoodRepository $foodRepository, CommentRepository $commentRepository): Response
+    {
+        $food = $foodRepository->findAll();
+        $comments = $commentRepository->findBy(array('status' => 1));
         return $this->render('/home.html.twig', [
             "food" => $food,
             "comments" => $comments
@@ -33,7 +44,7 @@ class HomeController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function comment(EntityManagerInterface $manager, Request $request, AlertServiceInterface $alert)
+    public function comment(Request $request)
     {
         $comment = new Comment();
         $form = $this->createForm(CommentFormType::class, $comment);
@@ -42,9 +53,9 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
             $comment->setStatus(0);
-            $manager->persist($comment);
-            $manager->flush();
-            $alert->success('Merci pour votre commentaire');
+            $this->manager->persist($comment);
+            $this->manager->flush();
+            $this->alert->success('Merci pour votre commentaire');
             return $this->redirectToRoute('home');
         }
 
@@ -57,7 +68,7 @@ class HomeController extends AbstractController
     /**
      * @IsGranted("ROLE_USER")
      */
-    public function contact(EntityManagerInterface $manager, AlertServiceInterface $alert, Request $request)
+    public function contact(Request $request)
     {
         $contact = new Contact();
         $form = $this->createForm(ContactFormType::class, $contact);
@@ -66,9 +77,9 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contact->setUser($this->getUser());
             $contact->setStatus(0);
-            $manager->persist($contact);
-            $manager->flush();
-            $alert->success('Votre message a été envoyé');
+            $this->manager->persist($contact);
+            $this->manager->flush();
+            $this->alert->success('Votre message a été envoyé');
             return $this->redirectToRoute('home');
         }
 

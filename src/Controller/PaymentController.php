@@ -19,10 +19,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PaymentController extends AbstractController
 {
-    #[Route('/checkout', name: 'checkout')]
-    public function checkout($stripeSK, EntityManagerInterface $manager, CartServiceInterface $cartService, CartController $cartController)
+
+    private EntityManagerInterface $manager;
+    private CartServiceInterface $cartService;
+    public function __construct(EntityManagerInterface $manager, CartServiceInterface $cartService)
     {
-        $totalAccount = $cartService->getTotal() * 100;
+        $this->manager = $manager;
+        $this->cartService = $cartService;
+    }
+
+    #[Route('/checkout', name: 'checkout')]
+    public function checkout($stripeSK, CartController $cartController)
+    {
+        $totalAccount = $this->cartService->getTotal() * 100;
         // Création d'une commande
         $order = new Order();
         $order->setTotalAccount($totalAccount);
@@ -30,7 +39,7 @@ class PaymentController extends AbstractController
         $order->setStatus(false);
 
         // Récupération des articles en session
-        $items = $cartService->getFullCart();
+        $items = $this->cartService->getFullCart();
         $nbProduct = 0;
 
         foreach ($items as $item) {
@@ -48,8 +57,8 @@ class PaymentController extends AbstractController
         $order->setZipcode($delivery['zipcode']);
         $order->setCity($delivery['city']);
 
-        $manager->persist($order);
-        $manager->flush();
+        $this->manager->persist($order);
+        $this->manager->flush();
 
         Stripe::setApiKey($stripeSK);
 
@@ -74,10 +83,10 @@ class PaymentController extends AbstractController
     }
 
     #[Route('/success/{id}', name: 'success')]
-    public function success(Order $order, EntityManagerInterface $manager, CartServiceInterface $cartService, MailerInterface $mailer)
+    public function success(Order $order, MailerInterface $mailer)
     {
-        $cartService->emptyCart();
-        $cartService->removeDetailCart();
+        $this->cartService->emptyCart();
+        $this->cartService->removeDetailCart();
 
         $order->setStatus(true);
 
@@ -91,8 +100,8 @@ class PaymentController extends AbstractController
 
         $mailer->send($email);
 
-        $manager->persist($order);
-        $manager->flush();
+        $this->manager->persist($order);
+        $this->manager->flush();
 
 
         return $this->render('cart/success.html.twig');

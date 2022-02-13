@@ -17,6 +17,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminFoodController extends AbstractController
 {
+    private $manager;
+    private $alert;
+    public function __construct(EntityManagerInterface $manager, AlertServiceInterface $alert)
+    {
+        $this->alert = $alert;
+        $this->manager = $manager;
+    }
 
     #[Route('/admin/show_food', name: 'show_food')]
     /**
@@ -35,7 +42,7 @@ class AdminFoodController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function addFood(EntityManagerInterface $manager, Request $request, AlertServiceInterface $alert, UploadServiceInterface $uploadService)
+    public function addFood(Request $request, UploadServiceInterface $uploadService)
     {
         $food = new Food();
         $form = $this->createform(FoodFormType::class, $food);
@@ -51,9 +58,9 @@ class AdminFoodController extends AbstractController
                 $food->setImg($newFilename);
                 $food->setHide(0);
             }
-            $manager->persist($food);
-            $manager->flush();
-            $alert->success("Le menu a bien été ajouté");
+            $this->manager->persist($food);
+            $this->manager->flush();
+            $this->alert->success("Le menu a bien été ajouté");
 
             return $this->redirectToRoute('show_food');
         }
@@ -66,7 +73,7 @@ class AdminFoodController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function editFood(Food $food, Request $request, EntityManagerInterface $manager, AlertServiceInterface $alert, UploadServiceInterface $uploadService): Response
+    public function editFood(Food $food, Request $request, UploadServiceInterface $uploadService): Response
     {
 
         $form = $this->createForm(FoodFormType::class, $food);
@@ -79,10 +86,9 @@ class AdminFoodController extends AbstractController
                 $Newimg = $uploadService->upload($Newimg, $this->getParameter('img_directory'));
                 $food->setImg($Newimg);
             }
-            $manager->persist($food);
-            $manager->flush();
-            $alert->success("Le menu a bien été mis à jour");
-
+            $this->manager->persist($food);
+            $this->manager->flush();
+            $this->alert->success("Le menu a bien été mis à jour");
             return $this->redirectToRoute('show_food');
         }
 
@@ -95,12 +101,12 @@ class AdminFoodController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function hideFood(Food $food, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function hideFood(Food $food)
     {
         $food->setHide(1);
-        $manager->persist($food);
-        $manager->flush();
-        $alert->success('Votre plat a été retiré de la vente');
+        $this->manager->persist($food);
+        $this->manager->flush();
+        $this->alert->success('Votre plat a été retiré de la vente');
         return $this->redirectToRoute('show_food');
     }
 
@@ -108,12 +114,12 @@ class AdminFoodController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function unhideFood(Food $food, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function unhideFood(Food $food)
     {
         $food->setHide(0);
-        $manager->persist($food);
-        $manager->flush();
-        $alert->success('Votre plat a été remise en vente');
+        $this->manager->persist($food);
+        $this->manager->flush();
+        $this->alert->success('Votre plat a été remise en vente');
         return $this->redirectToRoute('show_food');
     }
 
@@ -122,11 +128,11 @@ class AdminFoodController extends AbstractController
      * @IsGranted("ROLE_ADMIN")
      * 
      */
-    public function deleteFood(Food $food, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function deleteFood(Food $food)
     {
-        $manager->remove($food);
-        $manager->flush();
-        $alert->success("Le menu a été supprimé avec succès");
+        $this->manager->remove($food);
+        $this->manager->flush();
+        $this->alert->success("Le menu a été supprimé avec succès");
         return $this->redirectToRoute('show_menu');
     }
 }

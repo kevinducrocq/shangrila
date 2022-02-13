@@ -16,9 +16,11 @@ class CartController extends AbstractController
 {
 
     private CartServiceInterface $cartService;
-    public function __construct(CartServiceInterface $cartService)
+    private AlertServiceInterface $alert;
+    public function __construct(CartServiceInterface $cartService, AlertServiceInterface $alert)
     {
         $this->cartService = $cartService;
+        $this->alert = $alert;
     }
 
     #[Route('/cart', name: 'cart')]
@@ -56,10 +58,10 @@ class CartController extends AbstractController
     /**
      * Ajout d'un produit au panier
      */
-    public function addItemToCart($id, AlertServiceInterface $alert)
+    public function addItemToCart($id)
     {
         $this->cartService->addItemToCart($id);
-        $alert->success('Produit ajouté');
+        $this->alert->success('Produit ajouté');
         return $this->redirectToRoute("cart");
     }
 
@@ -67,10 +69,10 @@ class CartController extends AbstractController
     /**
      * Retrait d'un produit au panier
      */
-    public function removeItemFromCart($id, AlertServiceInterface $alert)
+    public function removeItemFromCart($id)
     {
         $this->cartService->removeItemFromCart($id);
-        $alert->warning('Produit retiré');
+        $this->alert->warning('Produit retiré');
         return $this->redirectToRoute("cart");
     }
 
@@ -78,10 +80,10 @@ class CartController extends AbstractController
     /**
      * Suppression d'une ligne du panier
      */
-    public function deleteLineFromCart($id, AlertServiceInterface $alert)
+    public function deleteLineFromCart($id)
     {
         $this->cartService->deleteLineFromCart($id);
-        $alert->danger('Produit supprimé');
+        $this->alert->danger('Produit supprimé');
         return $this->redirectToRoute("cart");
     }
 
@@ -99,9 +101,9 @@ class CartController extends AbstractController
     /**
      * Change l'adresse de livraison si l'utilisateur n'est pas chez lui. 
      */
-    public function changeAddress(Request $request, AlertServiceInterface $alert)
+    public function changeAddress(Request $request)
     {
-    
+
         $form = $this->createForm(ChangeAddressType::class);
         $form->handleRequest($request);
 
@@ -114,7 +116,7 @@ class CartController extends AbstractController
             ];
 
             $this->cartService->setDetailCart($data);
-            $alert->success('votre adresse de livraison a été changée');
+            $this->alert->success('votre adresse de livraison a été changée');
 
             return $this->redirectToRoute('cart');
         }

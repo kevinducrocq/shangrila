@@ -16,6 +16,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUsersController extends AbstractController
 {
+
+    private $manager;
+    private $alert;
+    public function __construct(EntityManagerInterface $manager, AlertServiceInterface $alert)
+    {
+        $this->alert = $alert;
+        $this->manager = $manager;
+    }
+
     #[Route('/admin/show_users', name: 'show_users')]
     /**
      * @IsGranted("ROLE_ADMIN")
@@ -33,16 +42,16 @@ class AdminUsersController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function editUser(User $user, Request $request, EntityManagerInterface $manager, AlertServiceInterface $alert): Response
+    public function editUser(User $user, Request $request): Response
     {
         $form = $this->createForm(UserEditFormType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($user);
-            $manager->flush();
-            $alert->success("L'utilisateur a bien été modifié");
+            $this->manager->persist($user);
+            $this->manager->flush();
+            $this->alert->success("L'utilisateur a bien été modifié");
             return $this->redirectToRoute('show_users');
         }
         return $this->render('admin/users/edit_user.html.twig', [
@@ -54,11 +63,11 @@ class AdminUsersController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function deleteUser(User $user, EntityManagerInterface $manager, AlertServiceInterface $alert)
+    public function deleteUser(User $user)
     {
-        $manager->remove($user);
-        $manager->flush();
-        $alert->success("L'utilisateur a bien été supprimé");
+        $this->manager->remove($user);
+        $this->manager->flush();
+        $this->alert->success("L'utilisateur a bien été supprimé");
         return $this->redirectToRoute('show_users');
     }
 }
