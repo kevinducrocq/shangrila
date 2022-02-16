@@ -42,7 +42,6 @@ class AppExtension extends AbstractExtension
     public function notifComment()
     {
         $newComments = $this->managerRegistry->getRepository(Comment::class)->findBy(['status' => 0]);
-
         if ($newComments) {
             return true;
         } else {
@@ -53,7 +52,6 @@ class AppExtension extends AbstractExtension
     public function notifMessage()
     {
         $newMessages = $this->managerRegistry->getRepository(Contact::class)->findBy(['status' => 0]);
-
         if ($newMessages) {
             return true;
         } else {

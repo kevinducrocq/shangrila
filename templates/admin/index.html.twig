@@ -4,17 +4,17 @@
 {% endblock %}
 
 {% block body %}
+	{% include "/admin/_sidebar_admin_mobile.html.twig" %}
 
 	<div class="container mt-5 mb-5">
-		{% include "/admin/_sidebar_admin_mobile.html.twig" %}
 
 		<div class="row">
 			<h1 class="h2 mb-5">Interface d'administration</h1>
-			<div class="col-md-3">
+			<div class="col-md-3" id="navi">
 				{% include "/admin/_sidebar-admin.html.twig" %}
 			</div>
 
-			<div class="col-md-9">
+			<div class="col-md-12 col-sm-12 col-12 col-lg-9">
 				<div class="row">
 					<div class="p-3 bg-primary col-md-2 m-2 text-white">
 						<div class="d-flex flex-column align-items-center">

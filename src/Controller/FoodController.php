@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Food;
-use App\Repository\FoodRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

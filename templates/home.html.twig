@@ -10,8 +10,8 @@
 	<section>
 		<div id="cover" class="d-flex flex-column justify-content-center align-items-center">
 			<img src="{{asset('./uploads/site/separater.png')}}" alt="">
-			<h1 class="h1-cover">Restaurant Shangrila</h1>
-			<h2 class="h2-cover">Spécialités culinaires hors du commun</h2>
+			<h1 class="h1-cover text-center">Restaurant Shangrila</h1>
+			<h2 class="h2-cover text-center">Spécialités culinaires hors du commun</h2>
 			<img src="{{asset('./uploads/site/separater.png')}}" alt="">
 		</div>
 	</section>
@@ -19,40 +19,58 @@
 	{# Bloc derniers plats #}
 	<section class="bg-light py-5">
 		<div class="container">
-			<div class="titles mb-5">
-				<h2 class="h3 h1-cover">Nos derniers plats à la carte</h2>
-				<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
-				{% if app.user == false %}
-					<span class="mt-2 text-muted">
-						<a href="{{path('app_login')}}">Connectez-vous</a>
-						ou
-						<a href="{{path('app_register')}}">Inscrivez-vous</a>
-						pour pouvoir commander</a>
-				</span>
-			{% endif %}
 
+			<div class="titles mb-5 d-flex justify-content-between align-items-center">
+				<div>
+					<h2 class="h3 h1-cover flex-column">Nos derniers plats à la carte</h2>
+					<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+
+					{% if app.user == false %}
+						<span class="mt-2 text-muted">
+							<a href="{{path('app_login')}}">Connectez-vous</a>
+							ou
+							<a href="{{path('app_register')}}">Inscrivez-vous</a>
+							pour pouvoir commander</a>
+					</span>
+				{% endif %}
+			</div>
+			{% if app.user %}
+				<a href="{{path('order')}}" class="btn btn-primary btn-lg">
+					Voir tout</a>
+			{% endif %}
 		</div>
+
+
 		<div class="row">
-			{% for foods in food|slice(0, 8) %}
+			{% for foods in food | slice(0,8) %}
 				{% if foods.hide == false and foods.category.hide == false %}
 					<div class="col-lg-3 col-md-4 col-sm-6">
 						<div class="mb-2 card shadow">
-							<img src="{{asset(path_image_menu ~ foods.img)}}" class="img-fluid card-img-top" alt="{{foods.name}}">
+							<a href="{{path('see_food_details',{'id':foods.id})}}">
+								<img src="{{asset(path_image_menu ~ foods.img)}}" class="img-fluid card-img-top" alt="{{foods.name}}">
+							</a>
 							<div class="card-body">
+
 								<span class="text-muted">{{foods.category.name}}</span>
-								<h5 class="card-title">{{foods.name}}</h5>
+
+								<div class="d-flex justify-content-between align-items-center">
+									<h5 class="card-title">{{foods.name}}</h5>
+									<a href="{{path('see_food_details',{id:foods.id})}}" class="btn btn-sm btn-light">
+										<i class="fas fa-eye"></i>
+									</a>
+								</div>
 								<p class="card-text">{{foods.price}}
 									&euro;</p>
-								<div class="d-flex justify-content-between">
-									<a href="{{path('see_food_details',{'id':foods.id})}}" class="btn btn-dark">
-										<i class="far fa-eye"></i>
-										Voir</a>
-									{% if app.user %}
-										<a href="{{path('addItemToCart',{id:foods.id})}}" class="btn btn-light border border-2">
-											<i class="fas fa-cart-plus"></i>
-											Commander</a>
+									<a 
+									{% if app.user %} 
+									href="{{path('addItemToCart',{id:foods.id})}}" 
+									{% else %} 
+									href="{{path('app_login')}}"
 									{% endif %}
-								</div>
+									class="btn btn-secondary text-white">
+										<i class="fas fa-cart-plus"></i>
+										Ajouter
+									</a>
 							</div>
 						</div>
 					</div>
@@ -72,7 +90,7 @@
 
 
 {# Bloc Commentaires #}
-<section class="bg-light py-5">
+<section class="bg-light py-5" id="homeComment">
 	<div class="container">
 		<div class="titles mb-5 d-flex justify-content-between align-items-center">
 			<div>

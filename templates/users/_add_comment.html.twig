@@ -12,10 +12,13 @@
 			<h1 class="h2 mb-5">Ajouter un commentaire</h1>
 			{{form_start(commentForm)}}
 			{{form_widget(commentForm)}}
-			<button type="submit" class="btn btn-primary">Ajouter</button>
-			<a href="{{path('show_category')}}" class="btn btn-dark">
-					<i class="fas fa-backward"></i> Retour</a>
-			{{form_end(commentForm)}}
+			<div class="d-flex justify-content-between">
+				<a href="{{path('home')}}#homeComment" class="btn btn-dark">
+					<i class="fas fa-backward"></i>
+					Retour</a>
+				<button type="submit" class="btn btn-primary">Ajouter</button>
+				{{form_end(commentForm)}}
+			</div>
 		</div>
 	</div>
-</div></div>{% endblock %}
+</div>{% endblock %}

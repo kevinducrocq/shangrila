@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\ChangeAddressType;
 use App\Service\Cart\CartServiceInterface;
 use App\Service\Alert\AlertServiceInterface;
@@ -94,6 +93,7 @@ class CartController extends AbstractController
     public function emptyCart()
     {
         $this->cartService->emptyCart();
+        $this->alert->success('Panier vidé');
         return $this->redirectToRoute("cart");
     }
 

@@ -11,20 +11,25 @@
 
 		<link rel="stylesheet" href="/css/bootstrap.min.css">
 		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"> {% block stylesheets %}{% endblock %}
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"> 
+		
+		{% block stylesheets %}{% endblock %}
 
 		</head>
 		{% include "/partials/_header.html.twig" %}
 		<body>
+		
 			{% include "_flash_message.html.twig" %}
+
 			{% block body %}{% endblock %}
+
 			{% include "/partials/_footer.html.twig" %}
 
 			<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.25.0/axios.min.js" integrity="sha512-/Q6t3CASm04EliI1QyIDAA/nDo9R8FQ/BULoUFyN4n/BDdyIxeH7u++Z+eobdmr11gG5D/6nPFyDlnisDwhpYA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			<script src="/js/script.js"></script>
 			<script src="/js/bootstrap.min.js"></script>
-			{% block javascripts %}{% endblock %}
 
+			{% block javascripts %}{% endblock %}
 		</body>
 	</html>

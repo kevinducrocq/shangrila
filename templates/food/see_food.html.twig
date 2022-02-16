@@ -37,9 +37,15 @@
 							pour pouvoir commander</a>
 					</span>
 				{% endif %}
-				<a class="btn btn-dark" href="{{path('order')}}">
-					<i class="fas fa-backward"></i>
-					Retour</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a class="btn btn-dark" href="{{path('show_food')}}">
+						<i class="fas fa-backward"></i>
+						Retour</a>
+				{% else %}
+					<a class="btn btn-dark" href="{{path('order')}}">
+						<i class="fas fa-backward"></i>
+						Retour</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>

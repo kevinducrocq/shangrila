@@ -52,12 +52,10 @@ class AdminFoodController extends AbstractController
             $img = $form->get('img')->getData();
 
             if ($img) {
-
                 $newFilename = $uploadService->upload($img, $this->getParameter('img_directory'));
-
                 $food->setImg($newFilename);
-                $food->setHide(0);
             }
+            $food->setHide(0);
             $this->manager->persist($food);
             $this->manager->flush();
             $this->alert->success("Le menu a bien été ajouté");
@@ -133,6 +131,6 @@ class AdminFoodController extends AbstractController
         $this->manager->remove($food);
         $this->manager->flush();
         $this->alert->success("Le menu a été supprimé avec succès");
-        return $this->redirectToRoute('show_menu');
+        return $this->redirectToRoute('show_food');
     }
 }

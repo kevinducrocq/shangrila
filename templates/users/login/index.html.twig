@@ -16,15 +16,6 @@
 						<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 					{% endif %}
 
-					{% if app.user %}
-						<div class="mb-3 text-center bg-light">
-							Vous êtes connecté en tant que :
-							{{ app.user.lastname }}
-							{{ app.user.firstname }}. Ce n'est pas vous ?
-							<a href="{{ path('app_logout') }}">Déconnexion</a>
-						</div>
-					{% endif %}
-
 					<p class="text-center text-muted">Pas de compte ?
 						<a href="{{path('app_register')}}" class="btn-sm btn btn-secondary">Inscrivez-vous</a>
 					</p>

@@ -6,6 +6,10 @@ use App\Entity\Food;
 use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Comment;
+use App\Repository\CommentRepository;
+use App\Repository\FoodRepository;
+use App\Repository\OrderRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,19 +24,12 @@ class AdminController extends AbstractController
     /**
      * @IsGranted("ROLE_ADMIN")
      */
-    public function index(ManagerRegistry $manager): Response
+    public function index(UserRepository $userRepository, OrderRepository $orderRepository, FoodRepository $foodRepository, CommentRepository $commentRepository): Response
     {
-        $users = $manager->getRepository(User::class);
-        $userNumber = $users->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-
-        $orders = $manager->getRepository(Order::class);
-        $orderNumber = $orders->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-
-        $foods = $manager->getRepository(Food::class);
-        $foodNumber = $foods->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
-
-        $comments = $manager->getRepository(Comment::class);
-        $commentNumber = $comments->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $userNumber = $userRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $orderNumber = $orderRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $foodNumber = $foodRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
+        $commentNumber = $commentRepository->createQueryBuilder('a')->select('count(a.id)')->getQuery()->getSingleScalarResult();
 
         return $this->render('admin/index.html.twig', [
             'userNumber' => $userNumber,

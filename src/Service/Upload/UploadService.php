@@ -21,11 +21,11 @@ class UploadService implements UploadServiceInterface
     public function upload(UploadedFile $file, string $path): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // this is needed to safely include the file name as part of the URL
+
         $safeFilename = $this->slugger->slug($originalFilename);
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
-        // Move the file to the directory where brochures are stored
+        // transfert l'image dans un dossier spécifié dans le controller
         try {
             $file->move($path, $newFilename);
         } catch (FileException $e) {

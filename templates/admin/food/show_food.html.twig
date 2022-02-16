@@ -8,9 +8,9 @@
 {% endblock %}
 
 {% block body %}
+	{% include "/admin/_sidebar_admin_mobile.html.twig" %}
 
 	<div class="container mt-5 mb-5">
-		{% include "/admin/_sidebar_admin_mobile.html.twig" %}
 
 		<div class="d-flex justify-content-between align-items-center">
 			<h1 class="h2 mb-5">Gestion des plats</h1>
@@ -19,7 +19,7 @@
 
 		<div class="row">
 
-			<div class="col-md-3">
+			<div class="col-md-3" id="navi">
 				{% include "/admin/_sidebar-admin.html.twig" %}
 			</div>
 
@@ -28,6 +28,7 @@
 					<thead>
 						<tr>
 							<th>Catégorie</th>
+							<th>Ajouté le</th>
 							<th>Image</th>
 							<th>Nom</th>
 							<th>Prix</th>
@@ -44,6 +45,7 @@
 										"pas encore de catégorie attribuée"
 									{% endif %}
 								</td>
+								<td>{{food.createdAt|date('d/m/Y')}}</td>
 								<td>
 									<a href="{{path('see_food_details',{id:food.id})}}"><img src="{{asset(path_image_menu ~ food.img)}}" alt="" style="width:100px" class="img-fluid admin-image"></a>
 								</td>

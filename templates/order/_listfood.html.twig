@@ -4,19 +4,22 @@
 		{% if food.hide == false %}
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="card my-2">
-					<img src="{{ asset(path_image_menu ~ food.img) }}" class="card-img-top img-fluid img-food" alt="{{food.name}}">
+					<a href="{{path('see_food_details',{'id':food.id})}}">
+						<img src="{{asset(path_image_menu ~ food.img)}}" class="img-fluid card-img-top" alt="{{food.name}}">
+					</a>
 					<div class="card-body">
-						<h5 class="card-title text-nowrap">{{food.name}}</h5>
-						<p class="price card-text">{{food.price|number_format(2)}}
-							&euro;</p>
-						<div class="d-flex justify-content-between">
-							<a href="{{path('see_food_details', {id:food.id})}}" class="btn btn-dark">Voir
+						<div class="d-flex justify-content-between align-items-center">
+							<h5 class="card-title">{{food.name}}</h5>
+							<a href="{{path('see_food_details',{id:food.id})}}" class="btn btn-sm btn-light">
 								<i class="fas fa-eye"></i>
 							</a>
-							<a href="{{path('addItemToCart', {id:food.id})}}" class="btn btn-light border border-2">Commander
-								<i class="fas fa-cart-plus"></i>
-							</a>
 						</div>
+						<p class="price card-text">{{food.price|number_format(2)}}
+							&euro;</p>
+						<a href="{{path('addItemToCart',{id:food.id})}}" class="btn btn-secondary text-white">
+							<i class="fas fa-cart-plus"></i>
+							Ajouter
+						</a>
 					</div>
 				</div>
 			</div>

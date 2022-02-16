@@ -38,9 +38,7 @@ class CartService implements CartServiceInterface
                 unset($cart[$id]);
             }
         }
-
         // On sauvegarde dans la session
-        $this->session->set('cart', $cart);
     }
 
     public function deleteLineFromCart(int $id)
@@ -63,13 +61,9 @@ class CartService implements CartServiceInterface
     public function getTotal(): float
     {
         $total = 0;
-
         foreach ($this->getFullCart() as $item) {
-
             $total += $item['food']->getPrice() * $item['quantity'];
-
         }
-
         return $total;
     }
 
@@ -77,7 +71,6 @@ class CartService implements CartServiceInterface
     {
         $cart = $this->session->get('cart', []);
         $dataCart = [];
-
         foreach ($cart as $id => $quantity) {
             $food = $this->foodRepository->find($id);
             $dataCart[] = [
@@ -85,7 +78,6 @@ class CartService implements CartServiceInterface
                 "quantity" => $quantity,
             ];
         }
-
         return $dataCart;
     }
 

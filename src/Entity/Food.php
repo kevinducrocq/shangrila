@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\FoodRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\FoodRepository;
 
 #[ORM\Entity(repositoryClass: FoodRepository::class)]
 class Food
@@ -23,6 +24,7 @@ class Food
     private $description;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'food')]
+    #[ORM\JoinColumn(onDelete: "CASCADE")]
     private $category;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -30,6 +32,15 @@ class Food
 
     #[ORM\Column(type: 'boolean')]
     private $hide;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $createdAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
+
 
     public function getId(): ?int
     {
@@ -109,6 +120,18 @@ class Food
     public function setHide(bool $hide): self
     {
         $this->hide = $hide;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -1,78 +1,78 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="{{path('home')}}"><img src="{{ asset('/uploads/site/logo.196c3512.png') }}" alt="Logo restaurant Shangrila"></a>
+			<a class="navbar-brand" href="{{path('home')}}"><img src="{{ asset('/uploads/site/logo_small.png') }}" alt="Logo restaurant Shangrila" class="img-fluid" width="300px"></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
+
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					{% if app.user %}
-					</li>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{path('contact')}}">Contactez-nous</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{{path('order')}}">Commander</a>
-				</li>
-
-			{% endif %}
-		</ul>
-
-		<ul class="navbar-nav mr-auto mb-2 mb-lg-0">
-
-			{% if is_granted('ROLE_ADMIN') %}
-				<li class="nav-item mx-1">
-					<a class="nav-link" href="{{path('admin')}}">Administration
-						{% if commentNotif() or messageNotif() %}
-							<span class="badge bg-danger">
-								<i class="fas fa-exclamation"></i>
-							</span>
-						{% endif %}
-					</a>
-
-				</li>
-			{% endif %}
-
-			{% if app.user %}
-				<li class="nav-item">
-					<a class="nav-link mx-1" href="{{path('cart')}}">
-						<i class="fas fa-shopping-cart"></i>
-						Panier
-
-						{% if NumberItemsInCart()!= 0 %}
-							<span class="badge bg-warning text-dark">
-								{{NumberItemsInCart()}}
-							{% endif %}
-						</span>
-					</a>
-				</li>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Bienvenue
-						{{app.user.lastname}}
-					</a>
-					<ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown">
 						<li class="nav-item">
-							<a class="nav-link mx-1" href="{{path('user_profile')}}">Votre profil</a>
+							<a class="nav-link" href="{{path('order')}}">Commander</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link mx-1" href="{{path('app_logout')}}">Déconnexion</a>
+							<a class="nav-link" href="{{path('add_comment')}}">Laisser un avis</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path('contact')}}">Contactez-nous</a>
+						</li>
+					{% endif %}
+				</ul>
+
+				<ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+
+					{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item mx-1">
+							<a class="nav-link" href="{{path('admin')}}">Administration
+								{% if commentNotif() or messageNotif() %}
+									<span class="badge bg-danger">
+										<i class="fas fa-exclamation"></i>
+									</span>
+								{% endif %}
+							</a>
+						</li>
+					{% endif %}
+
+					{% if app.user %}
+						<li class="nav-item">
+							<a class="nav-link mx-1" href="{{path('cart')}}">
+								<i class="fas fa-shopping-cart"></i>
+								Panier
+								{% if NumberItemsInCart()!= 0 %}
+									<span class="badge bg-warning text-dark">
+										{{NumberItemsInCart()}}
+									{% endif %}
+								</span>
+							</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Bienvenue
+								{{app.user.lastname}}
+							</a>
+							<ul class="dropdown-menu shadow" aria-labelledby="navbarDropdown">
+								<li class="nav-item">
+									<a class="nav-link mx-1" href="{{path('user_profile')}}">Votre profil</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link mx-1" href="{{path('app_logout')}}">Déconnexion</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
-				</li>
-			</ul>
 
-		{% else %}
+				{% else %}
 
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
-			</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+					</li>
 
-		{% endif %}
-	</div>
-</nav></header>
+				{% endif %}
+			</div>
+		</nav>
+	</header>

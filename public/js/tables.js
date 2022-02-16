@@ -29,6 +29,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#foodTable").DataTable({
+    order: [[2, "DESC"]],
     pageLength: 10,
     lengthMenu: [
       [5, 10, 15, -1],
@@ -82,6 +83,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $("#orderTable").dataTable({
+    order: [[1, "DESC"]],
     pageLength: 10,
     lengthMenu: [
       [5, 10, 15, -1],
