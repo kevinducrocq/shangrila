@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Entity\Order;
 use App\Form\AccountType;
-use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Service\Alert\AlertServiceInterface;

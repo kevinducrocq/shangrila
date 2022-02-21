@@ -23,7 +23,7 @@
 			<div class="titles mb-5 d-flex justify-content-between align-items-center">
 				<div>
 					<h2 class="h3 h1-cover flex-column">Nos derniers plats à la carte</h2>
-					<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+					<h3 class="h5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
 
 					{% if app.user == false %}
 						<span class="mt-2 text-muted">
@@ -50,9 +50,7 @@
 								<img src="{{asset(path_image_menu ~ foods.img)}}" class="img-fluid card-img-top" alt="{{foods.name}}">
 							</a>
 							<div class="card-body">
-
 								<span class="text-muted">{{foods.category.name}}</span>
-
 								<div class="d-flex justify-content-between align-items-center">
 									<h5 class="card-title">{{foods.name}}</h5>
 									<a href="{{path('see_food_details',{id:foods.id})}}" class="btn btn-sm btn-light">
@@ -95,7 +93,7 @@
 		<div class="titles mb-5 d-flex justify-content-between align-items-center">
 			<div>
 				<h2 class="h3 h1-cover">Ce qu'ils disent de nous</h2>
-				<h3 class="h4">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
+				<h3 class="h5">Lorem ipsum dolor sit amet consectetur adipisicing elit.</h3>
 			</div>
 			<a href="{{path('add_comment')}}" class="btn btn-lg btn-primary">Laisser un commentaire</a>
 		</div>

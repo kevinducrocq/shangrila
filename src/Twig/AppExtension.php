@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Entity\Food;
 use Twig\TwigFunction;
 use App\Entity\Comment;
 use App\Entity\Contact;

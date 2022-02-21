@@ -45,7 +45,10 @@
 										"pas encore de catégorie attribuée"
 									{% endif %}
 								</td>
-								<td>{{food.createdAt|date('d/m/Y')}}</td>
+								<td>{{food.createdAt|date('d-m-y')}}
+									<br>
+									<span class="text-muted">{{food.createdAt|date('H:i:s')}}</span>
+								</td>
 								<td>
 									<a href="{{path('see_food_details',{id:food.id})}}"><img src="{{asset(path_image_menu ~ food.img)}}" alt="" style="width:100px" class="img-fluid admin-image"></a>
 								</td>

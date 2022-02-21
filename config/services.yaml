@@ -6,7 +6,9 @@
 parameters:
     img_directory: "uploads/menu/"
 services:
-  # default configuration for services in *this* file
+    # twig.extension.array:
+    #           class: Twig_Extensions_Extension_Array
+    #           tags: [twig.extension]
   _defaults:
     autowire: true # Automatically injects dependencies in your services.
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
